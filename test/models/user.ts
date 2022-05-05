@@ -1,24 +1,24 @@
-import { AlwaysAllow, AlwaysDeny } from "../utils/exposures";
 import { ExportableModel, Exportable, Export, ExportRule } from "../../src";
 import { Table, Column, HasMany } from "sequelize-typescript";
 import { Cookie } from "./cookie";
 
 const OnlySelf: ExportRule = (input: any, caller: ExportableModel) => {
-    if (!(input instanceof User)) return;
-    if (input.name === (caller as User).name) {
-        return Export.Allowed
+    if (input instanceof User) {
+        if (input.name === (caller as User).name) {
+            return Export.Allowed
+        }
     }
 }
 
 @Table
 export class User extends ExportableModel {
     @Column
-    @Exportable([AlwaysAllow])
+    @Exportable([Export.Allowed])
     name: string;
 
     @Column
-    @Exportable([AlwaysDeny, AlwaysAllow])
-    @Exportable([AlwaysAllow], "testly")
+    @Exportable([Export.Denied, Export.Allowed])
+    @Exportable([Export.Allowed], "testly")
     password: string;
 
     @Column
@@ -26,7 +26,7 @@ export class User extends ExportableModel {
     secret: string;
 
     @HasMany(() => Cookie)
-    @Exportable([AlwaysAllow], "testly")
+    @Exportable([Export.Allowed], "testly")
     @Exportable([OnlySelf])
     favcookies: Cookie[]
 }
