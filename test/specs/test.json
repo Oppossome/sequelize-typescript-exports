@@ -1,0 +1,27 @@
+[
+    {
+        "model": "User",
+        "data": {
+            "id": 0,
+            "name": "Dave",
+            "password": "dave123",
+            "secret": "dave secret"
+        }
+    },
+    {
+        "model": "User",
+        "data": {
+            "id": 1,
+            "name": "Kevin",
+            "password": "kevin123",
+            "secret": "kevin secret"
+        }
+    },
+    {
+        "model": "Cookie",
+        "data": {
+            "name": "Oatmeal Raisin",
+            "user": 0
+        }
+    }
+]
