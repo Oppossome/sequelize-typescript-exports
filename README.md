@@ -7,7 +7,7 @@
 This assumes you have successfully installed [sequelize-typescript](https://github.com/RobinBuschmann/sequelize-typescript#installation)
 
 ```sh
-npm install --save-dev sequelize-typescript-exports
+npm install sequelize-typescript-exports
 ```
 
 # Models
