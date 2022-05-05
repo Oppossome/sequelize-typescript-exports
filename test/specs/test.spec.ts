@@ -1,7 +1,6 @@
+import { Cookie, User, NonExportable, NoExports } from "../models"
 import { LoadSequelize } from "../utils/sequelize";
-import { User } from "../models/user";
 import assert from "node:assert"
-import { Cookie } from "../models/cookie";
 
 describe("ExposedTo Usage Suite", () => {
     let kevin: User
@@ -10,7 +9,7 @@ describe("ExposedTo Usage Suite", () => {
     before(async () => {
         await LoadSequelize("./test/specs/test.json");
         kevin = await User.findOne({ where: { name: "Kevin" }, include: [Cookie] }) as User
-        dave = await User.findOne({ where: { name: "Dave" }, include: [Cookie] }) as User
+        dave = await User.findOne({ where: { name: "Dave" }, include: [Cookie, NonExportable] }) as User
     });
 
     it("Fields are omitted appropriately", () => {
@@ -21,4 +20,9 @@ describe("ExposedTo Usage Suite", () => {
     it("Metadata keys export only relevant fields", () => {
         assert.deepStrictEqual(dave.Export(dave, "testly"), { password: "dave123", favcookies: [{ userId: 0 }] })
     })
+
+    it("Returns an empty table for ExportableModels with no exports", async () => {
+        const noExports = await NoExports.findOne({ where: { id: 0 } }) as NoExports
+        assert.deepStrictEqual(noExports.Export(noExports), {})
+    });
 });

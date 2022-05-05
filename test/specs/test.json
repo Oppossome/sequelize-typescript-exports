@@ -24,5 +24,18 @@
             "name": "Oatmeal Raisin",
             "user": 0
         }
+    },
+    {
+        "model": "NonExportable",
+        "data": {
+            "name": "Invalid",
+            "user": 0
+        }
+    },
+    {
+        "model": "NoExports",
+        "data": {
+            "id": 0
+        }
     }
 ]

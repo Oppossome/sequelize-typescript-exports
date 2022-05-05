@@ -1,5 +1,6 @@
 import { ExportableModel, Exportable, Export, ExportRule } from "../../src";
 import { Table, Column, HasMany } from "sequelize-typescript";
+import { NonExportable } from "./nonexportable";
 import { Cookie } from "./cookie";
 
 const OnlySelf: ExportRule = (input: any, caller: ExportableModel) => {
@@ -10,7 +11,7 @@ const OnlySelf: ExportRule = (input: any, caller: ExportableModel) => {
     }
 }
 
-const IsntDave: ExportRule = (input: any, caller: ExportableModel) => {
+const IsntDave: ExportRule = (input: any) => {
     if (input instanceof User) {
         if (input.name === "Dave") {
             return Export.Denied
@@ -41,4 +42,8 @@ export class User extends ExportableModel {
     @Exportable([Export.Allowed], "testly")
     @Exportable([OnlySelf])
     favcookies: Cookie[]
+
+    @HasMany(() => NonExportable)
+    @Exportable([OnlySelf])
+    NonExportables: NonExportable[]
 }

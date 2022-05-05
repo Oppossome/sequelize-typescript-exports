@@ -23,12 +23,18 @@ export class ExportableModel extends Model {
                         break;
                     }
 
-                    results[objKey] = objVal.map((child) => {
+                    let childArray: any[] = []
+                    for (const child of objVal) {
                         if (child instanceof ExportableModel) {
-                            const childData = child.Export(input, key)
-                            return Object.keys(childData).length ? childData : null
+                            const childExport = child.Export(input, key)
+                            childArray = [...childArray, childExport]
                         }
-                    })
+                    }
+
+                    if (childArray.length)
+                        results[objKey] = childArray
+
+                    break
                 } else if (rule === Export.Denied) {
                     break
                 }
