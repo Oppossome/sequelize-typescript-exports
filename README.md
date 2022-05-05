@@ -14,8 +14,8 @@ npm install sequelize-typescript-exports
 Aside from minor changes, it works the same as [sequelize-typescript models](https://github.com/RobinBuschmann/sequelize-typescript#usage)
 
 
-### Model Declarations
----
+## Model Declarations
+
 In order to utilize `@Exportable` you must extend from `ExportableModel` class it's a drop in replacement for sequelize-typescript's `Model`
 
 ```ts
@@ -28,8 +28,8 @@ export class User extends ExportableModel {
 }
 ```
 
-### ExportRule
----
+## ExportRule
+
 Rules are what define whether or not a field it's assigned to is exported only determining what happens if it returns a Export enum
 
 ```ts
@@ -50,8 +50,8 @@ const IsntDave: ExportRule = (input: any, caller: ExportableModel) => {
 }
 ```
 
-### @Exportable
----
+## @Exportable
+
 Assigned to a field within a ExportableModel, it takes an array of [Export Rules](#exportrule) and executes them sequentially upon model export
 
 
@@ -75,8 +75,8 @@ export class User extends ExportableModel {
 }
 ```
 
-### Exporting
----
+## Exporting
+
 Based on the information provided earlier
 
 ```ts
