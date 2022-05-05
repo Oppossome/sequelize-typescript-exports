@@ -3,7 +3,8 @@ import { ExportableModel, Exportable, Export, ExportRule } from "../../src";
 import { Table, Column, HasMany } from "sequelize-typescript";
 import { Cookie } from "./cookie";
 
-const OnlySelf: ExportRule = (input: User, caller: ExportableModel) => {
+const OnlySelf: ExportRule = (input: any, caller: ExportableModel) => {
+    if (!(input instanceof User)) return;
     if (input.name === (caller as User).name) {
         return Export.Allowed
     }
