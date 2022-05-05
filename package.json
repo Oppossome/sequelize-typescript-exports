@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha",
     "prepare": "tsc",
-    "coverage": "nyc --reporter=lcov mocha && codecov",
+    "coverage": "nyc mocha",
+    "coverageReport": "nyc --reporter=lcov mocha && codecov",
     "prepublishOnly": "npm run test",
     "postpublish": "del-cli --force dist",
     "release": "release-it"
