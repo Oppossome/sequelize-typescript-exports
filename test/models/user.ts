@@ -10,6 +10,14 @@ const OnlySelf: ExportRule = (input: any, caller: ExportableModel) => {
     }
 }
 
+const IsntDave: ExportRule = (input: any, caller: ExportableModel) => {
+    if (input instanceof User) {
+        if (input.name === "Dave") {
+            return Export.Denied
+        }
+    }
+}
+
 @Table
 export class User extends ExportableModel {
     @Column
@@ -24,6 +32,10 @@ export class User extends ExportableModel {
     @Column
     @Exportable([OnlySelf])
     secret: string;
+
+    @Column
+    @Exportable([IsntDave, Export.Allowed])
+    unseenByDave: string
 
     @HasMany(() => Cookie)
     @Exportable([Export.Allowed], "testly")

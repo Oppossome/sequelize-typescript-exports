@@ -5,6 +5,7 @@
             "id": 0,
             "name": "Dave",
             "password": "dave123",
+            "unseenByDave": "👁️ 👁️",
             "secret": "dave secret"
         }
     },

@@ -15,7 +15,7 @@ describe("ExposedTo Usage Suite", () => {
 
     it("Fields are omitted appropriately", () => {
         assert.deepStrictEqual(dave.Export(dave), { name: 'Dave', secret: "dave secret", favcookies: [{ name: "Oatmeal Raisin" }] })
-        assert.deepStrictEqual(dave.Export(kevin), { name: 'Dave' })
+        assert.deepStrictEqual(dave.Export(kevin), { name: 'Dave', unseenByDave: "👁️ 👁️" })
     })
 
     it("Metadata keys export only relevant fields", () => {
