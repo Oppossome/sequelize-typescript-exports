@@ -1,0 +1,8 @@
+#Source directories
+test
+src
+
+#Non-important files
+.eslintrc.js
+.gitattributes
+.mocharc.json
