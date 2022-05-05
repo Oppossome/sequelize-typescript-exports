@@ -15,6 +15,12 @@
     "sequelize-typescript",
     "decorators"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Oppossome/sequelize-typescript-exports.git"
+  },
+  "homepage": "https://github.com/Oppossome/sequelize-typescript-exports#readme",
+  "bugs": "https://github.com/Oppossome/sequelize-typescript-exports/issues",
   "author": "Oppossome",
   "license": "MIT",
   "devDependencies": {
