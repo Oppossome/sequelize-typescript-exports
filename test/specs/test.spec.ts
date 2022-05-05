@@ -14,11 +14,11 @@ describe("ExposedTo Usage Suite", () => {
     });
 
     it("Fields are omitted appropriately", () => {
-        assert.deepStrictEqual(dave.Expose(dave), { name: 'Dave', secret: "dave secret", favcookies: [{ name: "Oatmeal Raisin" }] })
-        assert.deepStrictEqual(dave.Expose(kevin), { name: 'Dave' })
+        assert.deepStrictEqual(dave.Export(dave), { name: 'Dave', secret: "dave secret", favcookies: [{ name: "Oatmeal Raisin" }] })
+        assert.deepStrictEqual(dave.Export(kevin), { name: 'Dave' })
     })
 
-    it("Metadata keys expose only relevant fields", () => {
-        assert.deepStrictEqual(dave.Expose(dave, "testly"), { password: "dave123", favcookies: [{ userId: 0 }] })
+    it("Metadata keys export only relevant fields", () => {
+        assert.deepStrictEqual(dave.Export(dave, "testly"), { password: "dave123", favcookies: [{ userId: 0 }] })
     })
 });

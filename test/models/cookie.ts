@@ -1,15 +1,15 @@
-import { AlwaysAllow, AlwaysDeny } from "../utils/exposures";
-import { ExposedModel, ExposeTo, Exposure } from "../../src";
+import { AlwaysAllow } from "../utils/exposures";
+import { ExportableModel, Exportable } from "../../src";
 import { Table, Column, ForeignKey, BelongsTo } from "sequelize-typescript";
 import { User } from "./user";
 
 @Table
-export class Cookie extends ExposedModel {
+export class Cookie extends ExportableModel {
     @Column
-    @ExposeTo([AlwaysAllow])
+    @Exportable([AlwaysAllow])
     name: string
 
-    @ExposeTo([AlwaysAllow], "testly")
+    @Exportable([AlwaysAllow], "testly")
     @ForeignKey(() => User)
     @Column
     userId: number

@@ -1,9 +1,9 @@
-import { Exposure, ExposureRule } from "../../src";
+import { Export, ExportRule } from "../../src";
 
-export const AlwaysAllow: ExposureRule = () => {
-  return Exposure.Allowed;
+export const AlwaysAllow: ExportRule = () => {
+  return Export.Allowed;
 };
 
-export const AlwaysDeny: ExposureRule = () => {
-  return Exposure.Denied;
+export const AlwaysDeny: ExportRule = () => {
+  return Export.Denied;
 };

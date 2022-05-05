@@ -1,31 +1,31 @@
 import { AlwaysAllow, AlwaysDeny } from "../utils/exposures";
-import { ExposedModel, ExposeTo, Exposure, ExposureRule } from "../../src";
+import { ExportableModel, Exportable, Export, ExportRule } from "../../src";
 import { Table, Column, HasMany } from "sequelize-typescript";
 import { Cookie } from "./cookie";
 
-const OnlySelf: ExposureRule = (input: User, caller: ExposedModel) => {
+const OnlySelf: ExportRule = (input: User, caller: ExportableModel) => {
     if (input.name === (caller as User).name) {
-        return Exposure.Allowed
+        return Export.Allowed
     }
 }
 
 @Table
-export class User extends ExposedModel {
+export class User extends ExportableModel {
     @Column
-    @ExposeTo([AlwaysAllow])
+    @Exportable([AlwaysAllow])
     name: string;
 
     @Column
-    @ExposeTo([AlwaysDeny, AlwaysAllow])
-    @ExposeTo([AlwaysAllow], "testly")
+    @Exportable([AlwaysDeny, AlwaysAllow])
+    @Exportable([AlwaysAllow], "testly")
     password: string;
 
     @Column
-    @ExposeTo([OnlySelf])
+    @Exportable([OnlySelf])
     secret: string;
 
     @HasMany(() => Cookie)
-    @ExposeTo([AlwaysAllow], "testly")
-    @ExposeTo([OnlySelf])
+    @Exportable([AlwaysAllow], "testly")
+    @Exportable([OnlySelf])
     favcookies: Cookie[]
 }

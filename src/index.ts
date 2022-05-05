@@ -1,16 +1,14 @@
 import { Model } from "sequelize-typescript"
 import "reflect-metadata"
 
-export type ExposureRule = (input: any, caller: ExposedModel) => Exposure | void
-export enum Exposure { Allowed, Denied }
+export type ExportRule = (input: any, caller: ExportableModel) => Export | void
+export enum Export { Allowed, Denied }
 
-type RuleStorage = { [key: string | symbol]: ExposureRule[] }
+type RuleStorage = { [key: string | symbol]: ExportRule[] }
 
-
-
-export class ExposedModel extends Model {
-    Expose(input: any, key: any = "default") {
-        const ruleMeta: RuleStorage = Reflect.getMetadata(`exposedTo: ${key}`, this.constructor) || {}
+export class ExportableModel extends Model {
+    Export(input: any, key = "default") {
+        const ruleMeta: RuleStorage = Reflect.getMetadata(`exportsTo: ${key}`, this.constructor) || {}
         const results: { [key: string]: any } = {}
 
         for (const [objKey, keyRules] of Object.entries(ruleMeta)) {
@@ -18,20 +16,20 @@ export class ExposedModel extends Model {
 
             for (const rule of keyRules) {
                 const rResult = rule(input, this)
-                if (rResult === Exposure.Allowed) {
+                if (rResult === Export.Allowed) {
                     if (!Array.isArray(objVal)) {
                         results[objKey] = objVal
                         break;
                     }
 
                     results[objKey] = objVal.map((child) => {
-                        if (child instanceof ExposedModel) {
-                            const childData = child.Expose(input, key)
+                        if (child instanceof ExportableModel) {
+                            const childData = child.Export(input, key)
                             return Object.keys(childData).length ? childData : null
                         }
                     })
 
-                } else if (rResult === Exposure.Denied) {
+                } else if (rResult === Export.Denied) {
                     break
                 }
             }
@@ -42,9 +40,9 @@ export class ExposedModel extends Model {
 }
 
 
-export function ExposeTo(rules: ExposureRule[], key: any = "default") {
-    return function (target: ExposedModel, ind: string | symbol) {
-        const ruleMeta: RuleStorage = Reflect.getMetadata(`exposedTo: ${key}`, target.constructor) || {}
-        Reflect.defineMetadata(`exposedTo: ${key}`, { ...ruleMeta, [ind]: rules }, target.constructor)
+export function Exportable(rules: ExportRule[], key = "default") {
+    return function (target: ExportableModel, ind: string | symbol) {
+        const ruleMeta: RuleStorage = Reflect.getMetadata(`exportsTo: ${key}`, target.constructor) || {}
+        Reflect.defineMetadata(`exportsTo: ${key}`, { ...ruleMeta, [ind]: rules }, target.constructor)
     }
 }
