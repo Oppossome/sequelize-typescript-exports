@@ -11,18 +11,17 @@ export class ExportableModel extends Model {
         const results: { [key: string]: any } = {}
 
         for (const [objKey, keyRules] of Object.entries(ruleMeta)) {
-            const objVal = this.getDataValue(objKey)
+            let objVal = this.getDataValue(objKey)
 
             for (const rawRule of keyRules) {
                 const isRuleFunc = typeof rawRule === "function"
                 const rule = isRuleFunc ? rawRule(input, this) : rawRule
 
-                if (rule === Export.Allowed) {
-                    if (!Array.isArray(objVal)) {
-                        results[objKey] = objVal
-                        break;
-                    }
+                // If denied exit progression, If not allowed continue
+                if (rule === Export.Denied) break;
+                if (rule !== Export.Allowed) continue;
 
+                if (Array.isArray(objVal)) {
                     let childArray: any[] = []
                     for (const child of objVal) {
                         if (child instanceof ExportableModel) {
@@ -31,13 +30,12 @@ export class ExportableModel extends Model {
                         }
                     }
 
-                    if (childArray.length)
-                        results[objKey] = childArray
-
-                    break
-                } else if (rule === Export.Denied) {
-                    break
+                    if (!childArray.length) break;
+                    objVal = childArray
                 }
+
+                results[objKey] = objVal
+                break
             }
         }
 
