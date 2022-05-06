@@ -1,50 +1,33 @@
-import { ExportableModel, Exportable, Export, ExportRule } from "../../src";
-import { Table, Column, HasMany } from "sequelize-typescript";
-import { NonExportable } from "./nonexportable";
-import { NoExports } from "./noexports"
-import { Cookie } from "./cookie";
+import { Table, Column, HasMany } from "sequelize-typescript"
+import { ExportableModel, Exportable, ExportRule, Export } from "../../src"
+import { Upload } from "./upload"
 
-const OnlySelf: ExportRule = (input: any, caller: ExportableModel) => {
+const IsOwner: ExportRule = (input: any, caller: ExportableModel) => {
     if (input instanceof User) {
-        if (input.name === (caller as User).name) {
+        if (input.id === (caller as User).id) {
             return Export.Allowed
         }
     }
 }
 
-const IsntDave: ExportRule = (input: any) => {
-    if (input instanceof User) {
-        if (input.name !== "Dave") {
-            return Export.Allowed
-        }
-    }
+const ReturnNothing: ExportRule = () => {
+    return
 }
 
 @Table
 export class User extends ExportableModel {
-    @Column
+    @Exportable([ReturnNothing], "instOf")
     @Exportable([Export.Allowed])
-    name: string;
-
     @Column
-    @Exportable([Export.Denied, Export.Allowed])
-    @Exportable([Export.Allowed], "testly")
-    password: string;
+    name: string
 
+    @Exportable([Export.Denied], "instOf")
+    @Exportable([IsOwner])
     @Column
-    @Exportable([OnlySelf])
-    secret: string;
+    password: string
 
-    @HasMany(() => Cookie)
-    @Exportable([Export.Allowed], "testly")
-    @Exportable([IsntDave])
-    favcookies: Cookie[]
-
-    @HasMany(() => NonExportable)
-    @Exportable([OnlySelf])
-    NonExportables: NonExportable[]
-
-    @HasMany(() => NoExports)
-    @Exportable([Export.Allowed])
-    NoExports: NoExports[]
+    @Exportable([Export.Allowed], "instOf")
+    @Exportable([IsOwner])
+    @HasMany(() => Upload)
+    uploads: Upload[]
 }

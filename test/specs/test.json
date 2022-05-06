@@ -3,39 +3,39 @@
         "model": "User",
         "data": {
             "id": 0,
-            "name": "Dave",
-            "password": "dave123",
-            "secret": "dave secret"
+            "name": "David",
+            "password": "david123"
         }
     },
     {
         "model": "User",
         "data": {
             "id": 1,
-            "name": "Kevin",
-            "password": "kevin123",
-            "secret": "kevin secret"
+            "name": "James",
+            "password": "james123"
         }
     },
     {
-        "model": "Cookie",
+        "model": "Upload",
         "data": {
-            "name": "Oatmeal Raisin",
-            "user": 0
-        }
-    },
-    {
-        "model": "NonExportable",
-        "data": {
-            "name": "Invalid",
-            "user": 0
-        }
-    },
-    {
-        "model": "NoExports",
-        "data": {
-            "user": 0,
+            "fileName": "dog.jpg",
+            "uploader": 0,
             "id": 0
+        }
+    },
+    {
+        "model": "Upload",
+        "data": {
+            "fileName": "cat.jpg",
+            "uploader": 1,
+            "id": 1
+        }
+    },
+    {
+        "model": "View",
+        "data": {
+            "id": 0,
+            "upload": 0
         }
     }
 ]

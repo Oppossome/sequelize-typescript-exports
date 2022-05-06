@@ -1,28 +1,39 @@
-import { Cookie, User, NonExportable, NoExports } from "../models"
 import { LoadSequelize } from "../utils/sequelize";
+import { User, Upload, View } from "../models"
 import assert from "node:assert"
 
-describe("ExposedTo Usage Suite", () => {
-    let kevin: User
-    let dave: User
+describe("sequelize-typescript-exports Test Suite", () => {
+    before(async () => await LoadSequelize("./test/specs/test.json"))
 
-    before(async () => {
-        await LoadSequelize("./test/specs/test.json");
-        kevin = await User.findOne({ where: { name: "Kevin" }, include: [Cookie] }) as User
-        dave = await User.findOne({ where: { name: "Dave" }, include: [Cookie, NonExportable, NoExports] }) as User
+    it("Fields are omitted accordingly", async () => {
+        const user1 = await User.findOne({ where: { id: 0 }, include: [Upload] }) as User;
+        const user2 = await User.findOne({ where: { id: 1 }, include: [Upload] }) as User;
+
+        assert.deepStrictEqual(user1.Export(user1), {
+            name: 'David',
+            password: 'david123',
+            uploads: [{
+                fileName: 'dog.jpg',
+                uploader: null,
+                views: null
+            }]
+        })
+
+        assert.deepStrictEqual(user2.Export(user2, "instOf"), {
+            uploads: []
+        })
+
+        assert.deepStrictEqual(user1.Export(user2), {
+            name: 'David'
+        })
     });
 
-    it("Fields are omitted appropriately", () => {
-        assert.deepStrictEqual(dave.Export(dave), { name: 'Dave', secret: "dave secret", NonExportables: [], NoExports: [] })
-        assert.deepStrictEqual(dave.Export(kevin), { name: 'Dave', NoExports: [], favcookies: [{ name: "Oatmeal Raisin" }] })
+    it("Populate subfields", async () => {
+        const post1 = await Upload.findOne({ where: { id: 0 }, include: [User, View] }) as Upload
+        assert.deepStrictEqual(post1.Export(post1.uploader), {
+            views: [],
+            fileName: 'dog.jpg',
+            uploader: { name: 'David', password: 'david123', uploads: null }
+        })
     })
-
-    it("Metadata keys export only relevant fields", () => {
-        assert.deepStrictEqual(dave.Export(dave, "testly"), { password: "dave123", favcookies: [{ userId: 0 }] })
-    })
-
-    it("Returns an empty table for ExportableModels with no exports", async () => {
-        const noExports = await NoExports.findOne({ where: { id: 0 } }) as NoExports
-        assert.deepStrictEqual(noExports.Export(noExports), {})
-    });
-});
+})
