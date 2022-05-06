@@ -34,6 +34,7 @@
     {
         "model": "NoExports",
         "data": {
+            "user": 0,
             "id": 0
         }
     }

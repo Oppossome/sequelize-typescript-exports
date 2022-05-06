@@ -1,6 +1,7 @@
 import { ExportableModel, Exportable, Export, ExportRule } from "../../src";
 import { Table, Column, HasMany } from "sequelize-typescript";
 import { NonExportable } from "./nonexportable";
+import { NoExports } from "./noexports"
 import { Cookie } from "./cookie";
 
 const OnlySelf: ExportRule = (input: any, caller: ExportableModel) => {
@@ -42,4 +43,8 @@ export class User extends ExportableModel {
     @HasMany(() => NonExportable)
     @Exportable([OnlySelf])
     NonExportables: NonExportable[]
+
+    @HasMany(() => NoExports)
+    @Exportable([Export.Allowed])
+    NoExports: NoExports[]
 }

@@ -9,12 +9,12 @@ describe("ExposedTo Usage Suite", () => {
     before(async () => {
         await LoadSequelize("./test/specs/test.json");
         kevin = await User.findOne({ where: { name: "Kevin" }, include: [Cookie] }) as User
-        dave = await User.findOne({ where: { name: "Dave" }, include: [Cookie, NonExportable] }) as User
+        dave = await User.findOne({ where: { name: "Dave" }, include: [Cookie, NonExportable, NoExports] }) as User
     });
 
     it("Fields are omitted appropriately", () => {
-        assert.deepStrictEqual(dave.Export(dave), { name: 'Dave', secret: "dave secret", NonExportables: [] })
-        assert.deepStrictEqual(dave.Export(kevin), { name: 'Dave', favcookies: [{ name: "Oatmeal Raisin" }] })
+        assert.deepStrictEqual(dave.Export(dave), { name: 'Dave', secret: "dave secret", NonExportables: [], NoExports: [] })
+        assert.deepStrictEqual(dave.Export(kevin), { name: 'Dave', NoExports: [], favcookies: [{ name: "Oatmeal Raisin" }] })
     })
 
     it("Metadata keys export only relevant fields", () => {
