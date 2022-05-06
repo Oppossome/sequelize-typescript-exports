@@ -33,8 +33,12 @@ export class ExportableModel extends Model {
                     }
 
                     objVal = childArray
+                } else if (objVal instanceof ExportableModel) {
+                    const connectedExport = objVal.Export(input, key)
+                    objVal = connectedExport
                 }
 
+                if (objVal === undefined) objVal = null
                 results[objKey] = objVal
                 break
             }
