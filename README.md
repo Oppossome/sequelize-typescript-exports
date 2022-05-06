@@ -1,6 +1,6 @@
 ## sequelize-typescript-exports
-![Build Status](https://img.shields.io/github/workflow/status/oppossome/sequelize-typescript-exports/Build%20Checks) 
-![Code Coverage](https://img.shields.io/codecov/c/github/oppossome/sequelize-typescript-exports) 
+[![Build Status](https://img.shields.io/github/workflow/status/oppossome/sequelize-typescript-exports/Build%20Checks)](https://github.com/Oppossome/sequelize-typescript-exports/actions/workflows/build-checks.yml)
+[![Code Coverage](https://img.shields.io/codecov/c/github/oppossome/sequelize-typescript-exports)](https://app.codecov.io/gh/Oppossome/sequelize-typescript-exports)
 
 
 # Installation
