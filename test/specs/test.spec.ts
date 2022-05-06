@@ -13,7 +13,7 @@ describe("ExposedTo Usage Suite", () => {
     });
 
     it("Fields are omitted appropriately", () => {
-        assert.deepStrictEqual(dave.Export(dave), { name: 'Dave', secret: "dave secret" })
+        assert.deepStrictEqual(dave.Export(dave), { name: 'Dave', secret: "dave secret", NonExportables: [] })
         assert.deepStrictEqual(dave.Export(kevin), { name: 'Dave', favcookies: [{ name: "Oatmeal Raisin" }] })
     })
 

@@ -26,11 +26,12 @@ export class ExportableModel extends Model {
                     for (const child of objVal) {
                         if (child instanceof ExportableModel) {
                             const childExport = child.Export(input, key)
-                            childArray = [...childArray, childExport]
+                            if (Object.keys(childExport).length) {
+                                childArray = [...childArray, childExport]
+                            }
                         }
                     }
 
-                    if (!childArray.length) break;
                     objVal = childArray
                 }
 
