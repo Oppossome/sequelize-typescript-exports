@@ -36,4 +36,10 @@ describe("sequelize-typescript-exports Test Suite", () => {
             uploader: { name: 'David', password: 'david123', uploads: null }
         })
     })
+
+    it("CanExport", async () => {
+        const post1 = await Upload.findOne({ where: { id: 0 }, include: [User, View] }) as Upload
+        assert.strictEqual(post1.CanExport("uploader", post1.uploader, "empty"), false)
+        assert.strictEqual(post1.CanExport("uploader", post1.uploader), true)
+    })
 })
